@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@theme {
+    --color-background: hsl(var(--color-background));
+    --color-surface: hsl(var(--color-surface));
+    --color-surface-hover: hsl(var(--color-surface-hover));
+    --color-border: hsl(var(--color-border));
+
+    --color-text-primary: hsl(var(--color-text-primary));
+    --color-text-secondary: hsl(var(--color-text-secondary));
+    --color-text-tertiary: hsl(var(--color-text-tertiary));
+
+    --color-primary: hsl(var(--color-primary));
+    --color-primary-foreground: hsl(var(--color-primary-foreground));
+
+    --color-accent: hsl(var(--color-accent));
+    --color-accent-foreground: hsl(var(--color-accent-foreground));
+
+    --color-success: hsl(var(--color-success));
+    --color-warning: hsl(var(--color-warning));
+    --color-danger: hsl(var(--color-danger));
+    --color-info: hsl(var(--color-info));
+
+    --font-sans: Inter, system-ui, sans-serif;
+}
+
+:root {
+    --color-background: 0 0% 100%;
+    /* White */
+    --color-surface: 0 0% 98%;
+    /* Very Light Gray */
+    --color-surface-hover: 0 0% 96%;
+    --color-border: 0 0% 90%;
+    /* Light Gray */
+
+    --color-text-primary: 0 0% 9%;
+    /* Almost Black */
+    --color-text-secondary: 0 0% 40%;
+    /* Medium Gray */
+    --color-text-tertiary: 0 0% 60%;
+    /* Light Gray Text */
+
+    --color-primary: 0 0% 9%;
+    /* Black */
+    --color-primary-foreground: 0 0% 100%;
+    /* White */
+
+    --color-accent: 0 0% 96%;
+    --color-accent-foreground: 0 0% 9%;
+
+    /* Semantic Colors (Splashes) */
+    --color-success: 142 76% 36%;
+    /* Green */
+    --color-warning: 38 92% 50%;
+    /* Orange */
+    --color-danger: 0 84% 60%;
+    /* Red */
+    --color-info: 221 83% 53%;
+    /* Blue */
+}
+
+/* Custom Utilities */
+.slider {
+    @apply h-2 w-full appearance-none rounded-full bg-surface cursor-pointer border border-border;
+}
+
+.slider::-webkit-slider-thumb {
+    @apply appearance-none h-5 w-5 rounded-full bg-white border-2 border-primary shadow-sm transition-transform hover:scale-110;
+}
+
+.slider::-moz-range-thumb {
+    @apply h-5 w-5 rounded-full bg-white border-2 border-primary shadow-sm transition-transform hover:scale-110;
+}
+
+@keyframes slide-in-from-top-2 {
+    from {
+        transform: translateY(-8px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-in {
+    animation: slide-in-from-top-2 0.3s ease-out;
+}
