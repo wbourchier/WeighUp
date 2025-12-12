@@ -1,7 +1,8 @@
 import React from 'react';
-import { Edit3, Heart, Star, DollarSign, Wrench, Cog, Zap, AlertTriangle, TrendingUp } from 'lucide-react';
-import { calculateWeightedScore, calculateCategoryScore, categoryWeights, subWeights } from '../utils/scoring';
+import { Edit3, Heart, Star, DollarSign, Wrench, Cog, Zap, AlertTriangle, TrendingUp, HelpCircle } from 'lucide-react';
 import CategorySection from './CategorySection';
+import ScreeningQuestions from './ScreeningQuestions';
+import type { CriteriaSchema } from '../types/criteria';
 
 interface ProjectCardProps {
     project: any;
@@ -9,8 +10,9 @@ interface ProjectCardProps {
     setSelectedProject: (id: number | null) => void;
     expandedSections: any;
     toggleSection: (sectionKey: string) => void;
-    criteriaDefinitions: any;
-    updateScore: (projectId: number, category: string, dimension: string, value: number) => void;
+    criteriaDefinitions: CriteriaSchema;
+    updateScore: (projectId: number, criterionId: number, value: number) => void;
+    updateScreeningAnswer?: (projectId: number, questionId: number, value: string) => void;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -20,10 +22,57 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     expandedSections,
     toggleSection,
     criteriaDefinitions,
-    updateScore
+    updateScore,
+    updateScreeningAnswer
 }) => {
-    const weightedScore = calculateWeightedScore(project.scores);
     const isSelected = selectedProject === project.id;
+
+    // Calculate weighted score dynamically
+    const calculateTotalScore = () => {
+        let totalScore = 0;
+        let totalWeight = 0;
+
+        criteriaDefinitions.criteriaCategories.forEach(category => {
+            category.criteria.forEach(criterion => {
+                const score = project.scores[criterion.id] || 0;
+                totalScore += score * criterion.weight;
+                totalWeight += criterion.weight;
+            });
+        });
+
+        // Normalize or just return weighted sum? 
+        // Existing app seemed to normalize. 
+        // If totalWeight is around 5 (sum of category weights * 5?), let's just return raw weighted sum for now
+        // or average weighted score.
+        // Let's stick to a simple sum for now, or maybe normalized to 100?
+        // The previous app had specific logic. Let's try to keep it simple: Sum(Score * Weight)
+        return totalScore;
+    };
+
+    const weightedScore = calculateTotalScore();
+
+    // Helper to get icon for category (could be dynamic or mapped)
+    const getCategoryIcon = (categoryName: string) => {
+        if (categoryName.includes("Patient")) return Heart;
+        if (categoryName.includes("Strategic")) return Star;
+        if (categoryName.includes("Financial")) return DollarSign;
+        if (categoryName.includes("Technical")) return Wrench;
+        if (categoryName.includes("Operational")) return Cog;
+        if (categoryName.includes("Risk")) return AlertTriangle;
+        if (categoryName.includes("Assumption")) return TrendingUp;
+        return HelpCircle;
+    };
+
+    const getCategoryColor = (categoryName: string) => {
+        if (categoryName.includes("Patient")) return "text-red-500";
+        if (categoryName.includes("Strategic")) return "text-purple-500";
+        if (categoryName.includes("Financial")) return "text-green-500";
+        if (categoryName.includes("Technical")) return "text-blue-500";
+        if (categoryName.includes("Operational")) return "text-indigo-500";
+        if (categoryName.includes("Risk")) return "text-red-600";
+        if (categoryName.includes("Assumption")) return "text-yellow-600";
+        return "text-gray-500";
+    };
 
     return (
         <div className={`bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border ${isSelected ? 'border-primary ring-1 ring-primary' : 'border-border'
@@ -52,170 +101,46 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
                 {isSelected && (
                     <div className="space-y-4 animate-in slide-in-from-top-2 duration-300 pt-4 border-t border-border">
-                        <CategorySection
-                            title="Patient/Donor/Supporter Impact"
-                            categoryKey="patientImpact"
-                            project={project}
-                            icon={Heart}
-                            color="text-red-500"
-                            isExpanded={expandedSections[`${project.id}-patientImpact`]}
-                            onToggle={() => toggleSection(`${project.id}-patientImpact`)}
-                            criteriaDefinitions={criteriaDefinitions}
-                            categoryWeights={categoryWeights}
-                            subWeights={subWeights}
-                            updateScore={updateScore}
-                        />
 
-                        <CategorySection
-                            title="Strategic Alignment & Business Value"
-                            categoryKey="strategicAlignment"
-                            project={project}
-                            icon={Star}
-                            color="text-purple-500"
-                            isExpanded={expandedSections[`${project.id}-strategicAlignment`]}
-                            onToggle={() => toggleSection(`${project.id}-strategicAlignment`)}
-                            criteriaDefinitions={criteriaDefinitions}
-                            categoryWeights={categoryWeights}
-                            subWeights={subWeights}
-                            updateScore={updateScore}
-                        />
+                        {/* Screening Questions */}
+                        {criteriaDefinitions.screeningQuestions && criteriaDefinitions.screeningQuestions.length > 0 && (
+                            <ScreeningQuestions
+                                questions={criteriaDefinitions.screeningQuestions}
+                                answers={project.screeningAnswers || {}}
+                                onAnswerChange={(qId, val) => updateScreeningAnswer && updateScreeningAnswer(project.id, qId, val)}
+                            />
+                        )}
 
-                        <CategorySection
-                            title="Financial Benefits"
-                            categoryKey="financialBenefits"
-                            project={project}
-                            icon={DollarSign}
-                            color="text-green-500"
-                            isExpanded={expandedSections[`${project.id}-financialBenefits`]}
-                            onToggle={() => toggleSection(`${project.id}-financialBenefits`)}
-                            criteriaDefinitions={criteriaDefinitions}
-                            categoryWeights={categoryWeights}
-                            subWeights={subWeights}
-                            updateScore={updateScore}
-                        />
+                        {/* Dynamic Categories */}
+                        {criteriaDefinitions.criteriaCategories.map(category => (
+                            <CategorySection
+                                key={category.id}
+                                category={category}
+                                scores={project.scores}
+                                icon={getCategoryIcon(category.name)}
+                                color={getCategoryColor(category.name)}
+                                isExpanded={expandedSections[`${project.id}-${category.id}`]}
+                                onToggle={() => toggleSection(`${project.id}-${category.id}`)}
+                                updateScore={(criterionId, value) => updateScore(project.id, criterionId, value)}
+                            />
+                        ))}
 
-                        <CategorySection
-                            title="Technical Health"
-                            categoryKey="technicalHealth"
-                            project={project}
-                            icon={Wrench}
-                            color="text-blue-500"
-                            isExpanded={expandedSections[`${project.id}-technicalHealth`]}
-                            onToggle={() => toggleSection(`${project.id}-technicalHealth`)}
-                            criteriaDefinitions={criteriaDefinitions}
-                            categoryWeights={categoryWeights}
-                            subWeights={subWeights}
-                            updateScore={updateScore}
-                        />
-
-                        <CategorySection
-                            title="Operational Efficiency"
-                            categoryKey="operationalEfficiency"
-                            project={project}
-                            icon={Cog}
-                            color="text-indigo-500"
-                            isExpanded={expandedSections[`${project.id}-operationalEfficiency`]}
-                            onToggle={() => toggleSection(`${project.id}-operationalEfficiency`)}
-                            criteriaDefinitions={criteriaDefinitions}
-                            categoryWeights={categoryWeights}
-                            subWeights={subWeights}
-                            updateScore={updateScore}
-                        />
-
-                        <div className="border-t border-border pt-6 mt-6">
-                            <h4 className="font-semibold text-text-primary mb-4 flex items-center gap-2">
-                                <Zap className="w-5 h-5" />
-                                Effort Factors
-                            </h4>
-
-                            <div className="space-y-4">
-                                <CategorySection
-                                    title="Implementation Complexity"
-                                    categoryKey="implementationComplexity"
-                                    project={project}
-                                    icon={AlertTriangle}
-                                    color="text-orange-500"
-                                    isExpanded={expandedSections[`${project.id}-implementationComplexity`]}
-                                    onToggle={() => toggleSection(`${project.id}-implementationComplexity`)}
-                                    criteriaDefinitions={criteriaDefinitions}
-                                    categoryWeights={categoryWeights}
-                                    subWeights={subWeights}
-                                    updateScore={updateScore}
-                                />
-
-                                <CategorySection
-                                    title="Risks"
-                                    categoryKey="risks"
-                                    project={project}
-                                    icon={AlertTriangle}
-                                    color="text-red-600"
-                                    isExpanded={expandedSections[`${project.id}-risks`]}
-                                    onToggle={() => toggleSection(`${project.id}-risks`)}
-                                    criteriaDefinitions={criteriaDefinitions}
-                                    categoryWeights={categoryWeights}
-                                    subWeights={subWeights}
-                                    updateScore={updateScore}
-                                />
-
-                                <CategorySection
-                                    title="Assumptions & Confidence"
-                                    categoryKey="assumptions"
-                                    project={project}
-                                    icon={TrendingUp}
-                                    color="text-yellow-600"
-                                    isExpanded={expandedSections[`${project.id}-assumptions`]}
-                                    onToggle={() => toggleSection(`${project.id}-assumptions`)}
-                                    criteriaDefinitions={criteriaDefinitions}
-                                    categoryWeights={categoryWeights}
-                                    subWeights={subWeights}
-                                    updateScore={updateScore}
-                                />
-                            </div>
-                        </div>
-
+                        {/* Score Breakdown Summary */}
                         <div className="bg-surface/50 rounded-lg p-4 mt-6 border border-border">
                             <div className="text-sm font-medium text-text-secondary mb-3">Score Breakdown</div>
                             <div className="grid grid-cols-2 gap-4 text-sm">
-                                <div className="flex justify-between">
-                                    <span className="text-text-secondary">Patient Impact:</span>
-                                    <span className="font-medium">{calculateCategoryScore(project.scores.patientImpact, 'patientImpact').toFixed(1)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-text-secondary">Strategic:</span>
-                                    <span className="font-medium">{calculateCategoryScore(project.scores.strategicAlignment, 'strategicAlignment').toFixed(1)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-text-secondary">Financial:</span>
-                                    <span className="font-medium">{(() => {
-                                        let financialScore = 0;
-                                        financialScore += project.scores.financialBenefits.directRevenueGeneration * subWeights.financialBenefits.directRevenueGeneration;
-                                        financialScore += project.scores.financialBenefits.costSavingsAvoidance * subWeights.financialBenefits.costSavingsAvoidance;
-                                        financialScore -= project.scores.financialBenefits.hardwareOneOffServices * Math.abs(subWeights.financialBenefits.hardwareOneOffServices);
-                                        financialScore -= project.scores.financialBenefits.ongoingTechCosts * Math.abs(subWeights.financialBenefits.ongoingTechCosts);
-                                        financialScore -= project.scores.financialBenefits.personnelCosts * Math.abs(subWeights.financialBenefits.personnelCosts);
-                                        return Math.max(0, financialScore).toFixed(1);
-                                    })()}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-text-secondary">Technical:</span>
-                                    <span className="font-medium">{calculateCategoryScore(project.scores.technicalHealth, 'technicalHealth').toFixed(1)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-text-secondary">Operational:</span>
-                                    <span className="font-medium">{calculateCategoryScore(project.scores.operationalEfficiency, 'operationalEfficiency').toFixed(1)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-text-secondary">Effort:</span>
-                                    <span className="font-medium">{(() => {
-                                        const complexityScore = project.scores.implementationComplexity.engineeringTimeEffort;
-                                        const risksScore = calculateCategoryScore(project.scores.risks, 'risks');
-                                        const assumptionsScore = calculateCategoryScore(project.scores.assumptions, 'assumptions');
-                                        return ((complexityScore * categoryWeights.implementationComplexity +
-                                            risksScore * categoryWeights.risks +
-                                            assumptionsScore * categoryWeights.assumptions) /
-                                            (categoryWeights.implementationComplexity + categoryWeights.risks + categoryWeights.assumptions)).toFixed(1);
-                                    })()}</span>
-                                </div>
+                                {criteriaDefinitions.criteriaCategories.map(category => {
+                                    const categoryScore = category.criteria.reduce((sum, c) => {
+                                        return sum + ((project.scores[c.id] || 0) * c.weight);
+                                    }, 0);
+
+                                    return (
+                                        <div key={category.id} className="flex justify-between">
+                                            <span className="text-text-secondary truncate pr-2" title={category.name}>{category.name}:</span>
+                                            <span className="font-medium">{categoryScore.toFixed(1)}</span>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>

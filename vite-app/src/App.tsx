@@ -1,191 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, LayoutGrid, List, Settings } from 'lucide-react';
 import ProjectCard from './components/ProjectCard';
 import MatrixView from './components/MatrixView';
-import { criteriaDefinitions } from './data/criteria';
 import { ConfigProvider, useConfig } from './contexts/ConfigContext';
 import ConfigEditor from './components/ConfigEditor/ConfigEditor';
+import CriteriaEditor from './pages/CriteriaEditor';
+import type { CriteriaSchema } from './types/criteria';
 
 const WeighUpApp = () => {
-  const { activeConfig } = useConfig();
+  const { activeConfig, updateConfig } = useConfig();
   const [isConfigOpen, setIsConfigOpen] = useState(false);
+  const [isCriteriaEditorOpen, setIsCriteriaEditorOpen] = useState(false);
 
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      name: "AN-1: Virology",
-      description: "Virology system implementation",
-      scores: {
-        patientImpact: {
-          directClinicalOutcomes: 3,
-          patientExperienceImprovement: 2,
-          populationReach: 3,
-          userResponseTimeImprovement: 2
-        },
-        strategicAlignment: {
-          organisationStrategyAlignment: 3,
-          innovationCapabilityDevelopment: 4,
-          dataStrategyInsights: 3,
-          internalPartnerExperience: 2
-        },
-        financialBenefits: {
-          directRevenueGeneration: 2,
-          costSavingsAvoidance: 3,
-          hardwareOneOffServices: 2,
-          ongoingTechCosts: 2,
-          personnelCosts: 3
-        },
-        technicalHealth: {
-          maintenanceBurdenReduction: 3,
-          systemsSimplification: 2,
-          technicalFoundationAdaptability: 3,
-          technicalStandardsCompliance: 3
-        },
-        operationalEfficiency: {
-          staffTimeSaved: 3,
-          errorReduction: 4,
-          automation: 3
-        },
-        implementationComplexity: {
-          engineeringTimeEffort: 4
-        },
-        risks: {
-          technicalDebtImpact: 3,
-          systemIntegrationComplexity: 4,
-          dataMigrationComplexity: 2,
-          teamFamiliarity: 3,
-          timelineRisk: 4,
-          organisationalCoordinationRisk: 3,
-          performanceImplications: 2,
-          complianceRisk: 2,
-          resourceAvailabilityRisk: 4
-        },
-        assumptions: {
-          businessMaturityDiscoveryRequirements: 3,
-          technologyMaturityResearchRequirements: 2,
-          likelihoodRealisingPredictedImpact: 3,
-          strategicClarity: 3
+  // Initialize projects with flat scores based on criteria IDs
+  // In a real app, we'd migrate existing data. Here we'll just reset or try to map if possible.
+  // For simplicity, let's start with empty projects or a default one that matches the schema.
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Initialize a default project if none exist, using the active criteria
+    if (projects.length === 0 && activeConfig.criteria) {
+      const initialScores: Record<number, number> = {};
+      activeConfig.criteria.criteriaCategories.forEach(cat => {
+        cat.criteria.forEach(crit => {
+          initialScores[crit.id] = 0; // Default score
+        });
+      });
+
+      setProjects([
+        {
+          id: 1,
+          name: `Example ${activeConfig.branding.itemName}`,
+          description: "Example description",
+          scores: initialScores,
+          screeningAnswers: {},
+          confidence: 3
         }
-      },
-      confidence: 3
-    },
-    {
-      id: 2,
-      name: "AN-2: Xledger Automated POs",
-      description: "Automated purchase order system integration",
-      scores: {
-        patientImpact: {
-          directClinicalOutcomes: 1,
-          patientExperienceImprovement: 1,
-          populationReach: 1,
-          userResponseTimeImprovement: 2
-        },
-        strategicAlignment: {
-          organisationStrategyAlignment: 2,
-          innovationCapabilityDevelopment: 2,
-          dataStrategyInsights: 2,
-          internalPartnerExperience: 4
-        },
-        financialBenefits: {
-          directRevenueGeneration: 1,
-          costSavingsAvoidance: 4,
-          hardwareOneOffServices: 1,
-          ongoingTechCosts: 2,
-          personnelCosts: 1
-        },
-        technicalHealth: {
-          maintenanceBurdenReduction: 3,
-          systemsSimplification: 4,
-          technicalFoundationAdaptability: 3,
-          technicalStandardsCompliance: 3
-        },
-        operationalEfficiency: {
-          staffTimeSaved: 5,
-          errorReduction: 4,
-          automation: 5
-        },
-        implementationComplexity: {
-          engineeringTimeEffort: 2
-        },
-        risks: {
-          technicalDebtImpact: 2,
-          systemIntegrationComplexity: 3,
-          dataMigrationComplexity: 1,
-          teamFamiliarity: 2,
-          timelineRisk: 2,
-          organisationalCoordinationRisk: 2,
-          performanceImplications: 1,
-          complianceRisk: 1,
-          resourceAvailabilityRisk: 2
-        },
-        assumptions: {
-          businessMaturityDiscoveryRequirements: 4,
-          technologyMaturityResearchRequirements: 2,
-          likelihoodRealisingPredictedImpact: 4,
-          strategicClarity: 3
-        }
-      },
-      confidence: 4
-    },
-    {
-      id: 3,
-      name: "AN-3: HLA Data Capture",
-      description: "HLA typing data capture system",
-      scores: {
-        patientImpact: {
-          directClinicalOutcomes: 4,
-          patientExperienceImprovement: 3,
-          populationReach: 4,
-          userResponseTimeImprovement: 3
-        },
-        strategicAlignment: {
-          organisationStrategyAlignment: 3,
-          innovationCapabilityDevelopment: 3,
-          dataStrategyInsights: 4,
-          internalPartnerExperience: 2
-        },
-        financialBenefits: {
-          directRevenueGeneration: 2,
-          costSavingsAvoidance: 2,
-          hardwareOneOffServices: 2,
-          ongoingTechCosts: 2,
-          personnelCosts: 2
-        },
-        technicalHealth: {
-          maintenanceBurdenReduction: 2,
-          systemsSimplification: 2,
-          technicalFoundationAdaptability: 3,
-          technicalStandardsCompliance: 3
-        },
-        operationalEfficiency: {
-          staffTimeSaved: 3,
-          errorReduction: 4,
-          automation: 3
-        },
-        implementationComplexity: {
-          engineeringTimeEffort: 3
-        },
-        risks: {
-          technicalDebtImpact: 3,
-          systemIntegrationComplexity: 4,
-          dataMigrationComplexity: 4,
-          teamFamiliarity: 3,
-          timelineRisk: 3,
-          organisationalCoordinationRisk: 3,
-          performanceImplications: 2,
-          complianceRisk: 3,
-          resourceAvailabilityRisk: 3
-        },
-        assumptions: {
-          businessMaturityDiscoveryRequirements: 2,
-          technologyMaturityResearchRequirements: 3,
-          likelihoodRealisingPredictedImpact: 2,
-          strategicClarity: 3
-        }
-      },
-      confidence: 2
+      ]);
     }
-  ]);
+  }, [activeConfig.criteria, projects.length]);
 
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [view, setView] = useState<'scoring' | 'matrix'>('scoring');
@@ -198,14 +51,28 @@ const WeighUpApp = () => {
     }));
   };
 
-  const updateScore = (projectId: number, category: string, dimension: string, value: number) => {
+  const updateScore = (projectId: number, criterionId: number, value: number) => {
     setProjects(projects.map(project =>
       project.id === projectId
         ? {
           ...project,
           scores: {
             ...project.scores,
-            [category]: { ...project.scores[category as keyof typeof project.scores], [dimension]: value }
+            [criterionId]: value
+          }
+        }
+        : project
+    ));
+  };
+
+  const updateScreeningAnswer = (projectId: number, questionId: number, value: string) => {
+    setProjects(projects.map(project =>
+      project.id === projectId
+        ? {
+          ...project,
+          screeningAnswers: {
+            ...project.screeningAnswers,
+            [questionId]: value
           }
         }
         : project
@@ -213,17 +80,33 @@ const WeighUpApp = () => {
   };
 
   const addNewProject = () => {
-    const newId = Math.max(...projects.map(p => p.id)) + 1;
+    const newId = Math.max(0, ...projects.map(p => p.id)) + 1;
+    const initialScores: Record<number, number> = {};
+    activeConfig.criteria.criteriaCategories.forEach(cat => {
+      cat.criteria.forEach(crit => {
+        initialScores[crit.id] = 0;
+      });
+    });
+
     const newProject = {
       id: newId,
       name: `New ${activeConfig.branding.itemName} ${newId}`,
       description: `New ${activeConfig.branding.itemName} description`,
-      scores: JSON.parse(JSON.stringify(projects[0].scores)), // Deep copy structure
+      scores: initialScores,
+      screeningAnswers: {},
       confidence: 3
     };
     setProjects([...projects, newProject]);
     setSelectedProject(newId);
   };
+
+  if (isCriteriaEditorOpen) {
+    return (
+      <CriteriaEditor
+        onBack={() => setIsCriteriaEditorOpen(false)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-text-primary p-8 font-sans transition-colors duration-300">
@@ -240,8 +123,8 @@ const WeighUpApp = () => {
               <button
                 onClick={() => setView('scoring')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all ${view === 'scoring'
-                    ? 'bg-white text-text-primary shadow-sm font-medium'
-                    : 'text-text-secondary hover:text-text-primary'
+                  ? 'bg-white text-text-primary shadow-sm font-medium'
+                  : 'text-text-secondary hover:text-text-primary'
                   }`}
               >
                 <List className="w-4 h-4" />
@@ -250,14 +133,21 @@ const WeighUpApp = () => {
               <button
                 onClick={() => setView('matrix')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all ${view === 'matrix'
-                    ? 'bg-white text-text-primary shadow-sm font-medium'
-                    : 'text-text-secondary hover:text-text-primary'
+                  ? 'bg-white text-text-primary shadow-sm font-medium'
+                  : 'text-text-secondary hover:text-text-primary'
                   }`}
               >
                 <LayoutGrid className="w-4 h-4" />
                 Matrix
               </button>
             </div>
+
+            <button
+              onClick={() => setIsCriteriaEditorOpen(true)}
+              className="px-4 py-2 rounded-lg border border-border bg-surface hover:bg-surface-hover text-text-secondary hover:text-text-primary transition-colors text-sm font-medium"
+            >
+              Edit Criteria
+            </button>
 
             <button
               onClick={() => setIsConfigOpen(true)}
@@ -293,14 +183,15 @@ const WeighUpApp = () => {
                     setSelectedProject={setSelectedProject}
                     expandedSections={expandedSections}
                     toggleSection={toggleSection}
-                    criteriaDefinitions={criteriaDefinitions}
+                    criteriaDefinitions={activeConfig.criteria}
                     updateScore={updateScore}
+                    updateScreeningAnswer={updateScreeningAnswer}
                   />
                 ))}
               </div>
             </div>
           ) : (
-            <MatrixView projects={projects} />
+            <MatrixView projects={projects} criteriaDefinitions={activeConfig.criteria} />
           )}
         </main>
       </div>

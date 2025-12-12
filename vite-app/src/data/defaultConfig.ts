@@ -1,4 +1,6 @@
 import type { AppConfig } from '../types/config';
+import criteriaData from './product_prioritisation_criteria_v6.json';
+import type { CriteriaSchema } from '../types/criteria';
 
 export const defaultConfig: AppConfig = {
     id: 'default',
@@ -30,5 +32,6 @@ export const defaultConfig: AppConfig = {
 
         accent: '0 0% 96%',
         accentForeground: '0 0% 9%'
-    }
+    },
+    criteria: criteriaData as unknown as CriteriaSchema
 };

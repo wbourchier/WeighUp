@@ -1,3 +1,5 @@
+import type { CriteriaSchema } from './criteria';
+
 export interface ThemeColors {
     primary: string;
     primaryForeground: string;
@@ -24,4 +26,5 @@ export interface AppConfig {
     name: string; // Display name of the config (e.g., "Default", "Dark Mode")
     branding: BrandingConfig;
     theme: ThemeColors;
+    criteria: CriteriaSchema;
 }

@@ -1,29 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { AppConfig, ThemeColors } from '../types/config';
-
-const localDefaultConfig: AppConfig = {
-    id: 'default',
-    name: 'Default Theme',
-    branding: {
-        appName: 'WeighUp',
-        tagline: 'Strategic Prioritization Framework',
-        itemName: 'Project',
-        itemNamePlural: 'Projects'
-    },
-    theme: {
-        background: '0 0% 100%',
-        surface: '0 0% 98%',
-        surfaceHover: '0 0% 96%',
-        border: '0 0% 90%',
-        textPrimary: '0 0% 9%',
-        textSecondary: '0 0% 40%',
-        textTertiary: '0 0% 60%',
-        primary: '0 0% 9%',
-        primaryForeground: '0 0% 100%',
-        accent: '0 0% 96%',
-        accentForeground: '0 0% 9%'
-    }
-};
+import type { AppConfig } from '../types/config';
+import { defaultConfig as localDefaultConfig } from '../data/defaultConfig';
 
 interface ConfigContextType {
     configs: AppConfig[];

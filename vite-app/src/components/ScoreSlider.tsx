@@ -11,6 +11,7 @@ interface ScoreSliderProps {
     criteriaData?: any;
     categoryKey: string;
     criteriaKey: string;
+    hideLabel?: boolean;
 }
 
 const ScoreSlider: React.FC<ScoreSliderProps> = ({
@@ -20,7 +21,8 @@ const ScoreSlider: React.FC<ScoreSliderProps> = ({
     icon: Icon,
     color,
     weight,
-    criteriaData
+    criteriaData,
+    hideLabel
 }) => {
     const [isExpanded, setIsExpanded] = React.useState(false);
     const onToggle = () => setIsExpanded(!isExpanded);
@@ -40,10 +42,12 @@ const ScoreSlider: React.FC<ScoreSliderProps> = ({
                 </div>
 
                 <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
-                        <span className="font-medium text-text-primary text-sm truncate">{label}</span>
-                        <span className="text-xs text-text-tertiary">({Math.round(weight * 100)}%)</span>
-                    </div>
+                    {!hideLabel && (
+                        <div className="flex items-center gap-2 mb-0.5">
+                            <span className="font-medium text-text-primary text-sm truncate">{label}</span>
+                            <span className="text-xs text-text-tertiary">({Math.round(weight * 100)}%)</span>
+                        </div>
+                    )}
                 </div>
 
                 {/* Info Toggle */}

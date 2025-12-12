@@ -1,15 +1,63 @@
 import React, { useState } from 'react';
 import { BarChart3 } from 'lucide-react';
-import { calculateCategoryScore, calculateWeightedScore, getTopContributors, categoryWeights, getConfidenceColor } from '../utils/scoring';
+import type { CriteriaSchema } from '../types/criteria';
 
 interface MatrixViewProps {
     projects: any[];
+    criteriaDefinitions: CriteriaSchema;
 }
 
-const MatrixView: React.FC<MatrixViewProps> = ({ projects }) => {
+const MatrixView: React.FC<MatrixViewProps> = ({ projects, criteriaDefinitions }) => {
     const [hoveredProject, setHoveredProject] = useState<any>(null);
-    const maxImpact = 5;
-    const maxEffort = 5;
+
+    // Determine max scores for normalization
+    // Assuming max score per criterion is 5
+    // Max Y = Sum of max scores of all Y-axis criteria
+    // Max X = Sum of max scores of all X-axis criteria
+
+    const calculateMaxScores = () => {
+        let maxY = 0;
+        let maxX = 0;
+
+        criteriaDefinitions.criteriaCategories.forEach(cat => {
+            const catMaxScore = cat.criteria.reduce((sum, c) => sum + (5 * c.weight), 0);
+            if (cat.axis === 'y') maxY += catMaxScore;
+            else if (cat.axis === '-y') maxY += catMaxScore; // We subtract the value, but the range is still relevant
+            else if (cat.axis === 'x' || cat.axis === 'w') maxX += catMaxScore;
+        });
+
+        return { maxX: maxX || 1, maxY: maxY || 1 };
+    };
+
+    const { maxX, maxY } = calculateMaxScores();
+
+    const calculateCoordinates = (project: any) => {
+        let yScore = 0;
+        let xScore = 0;
+
+        criteriaDefinitions.criteriaCategories.forEach(cat => {
+            const catScore = cat.criteria.reduce((sum, c) => {
+                return sum + ((project.scores[c.id] || 0) * c.weight);
+            }, 0);
+
+            if (cat.axis === 'y') yScore += catScore;
+            else if (cat.axis === '-y') yScore -= catScore;
+            else if (cat.axis === 'x' || cat.axis === 'w') xScore += catScore;
+        });
+
+        // Normalize to 0-100%
+        // For Y, we might have negative values if costs outweigh benefits. 
+        // Let's assume the chart range is 0 to MaxY (or maybe -MaxCost to MaxBenefit?)
+        // The previous chart was 0-100%. 
+        // Let's normalize X to 0-100% of MaxX.
+        // Let's normalize Y to 0-100% of MaxY (treating -y as just reducing the positive score).
+        // If Y < 0, clamp to 0? Or allow negative? The chart drawing assumes 0-100%.
+
+        const xPercent = Math.min(100, Math.max(0, (xScore / maxX) * 100));
+        const yPercent = Math.min(100, Math.max(0, (yScore / maxY) * 100)); // Simplified
+
+        return { x: xPercent, y: yPercent, rawX: xScore, rawY: yScore };
+    };
 
     return (
         <div className="bg-white rounded-xl shadow-sm border border-border p-8">
@@ -77,34 +125,22 @@ const MatrixView: React.FC<MatrixViewProps> = ({ projects }) => {
 
                 {/* Axis labels */}
                 <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm font-medium text-text-secondary">
-                    Effort →
+                    Effort / Risk →
                 </div>
                 <div className="absolute left-2 top-1/2 transform -translate-y-1/2 -rotate-90 text-sm font-medium text-text-secondary">
-                    Impact →
+                    Value / Impact →
                 </div>
 
                 {/* Project points */}
                 {projects.map(project => {
-                    const impactScore = (
-                        calculateCategoryScore(project.scores.patientImpact, 'patientImpact') * categoryWeights.patientImpact +
-                        calculateCategoryScore(project.scores.strategicAlignment, 'strategicAlignment') * categoryWeights.strategicAlignment +
-                        calculateCategoryScore(project.scores.operationalEfficiency, 'operationalEfficiency') * categoryWeights.operationalEfficiency +
-                        calculateCategoryScore(project.scores.technicalHealth, 'technicalHealth') * categoryWeights.technicalHealth
-                    );
+                    const { x: xPercent, y: yPercent } = calculateCoordinates(project);
 
-                    const complexityScore = project.scores.implementationComplexity.engineeringTimeEffort;
-                    const risksScore = calculateCategoryScore(project.scores.risks, 'risks');
-                    const assumptionsScore = calculateCategoryScore(project.scores.assumptions, 'assumptions');
+                    // Map percent to chart coordinates
+                    // Chart area: X from 10% to 90%, Y from 85% to 10%
+                    const x = (xPercent / 100) * 80 + 10;
+                    const y = 90 - (yPercent / 100) * 75;
 
-                    const effortScore = (complexityScore * categoryWeights.implementationComplexity +
-                        risksScore * categoryWeights.risks +
-                        assumptionsScore * categoryWeights.assumptions) /
-                        (categoryWeights.implementationComplexity + categoryWeights.risks + categoryWeights.assumptions);
-
-                    const x = (effortScore / maxEffort) * 80 + 10;
-                    const y = 90 - (impactScore / maxImpact) * 75;
-
-                    const initials = project.name.split(':')[0].substring(0, 4);
+                    const initials = project.name.substring(0, 4);
 
                     return (
                         <div
@@ -131,42 +167,27 @@ const MatrixView: React.FC<MatrixViewProps> = ({ projects }) => {
                     <div
                         className="absolute bg-white text-text-primary px-4 py-3 rounded-lg shadow-xl border border-border text-sm z-20 pointer-events-none max-w-xs"
                         style={{
-                            left: `${((() => {
-                                const complexityScore = hoveredProject.scores.implementationComplexity.engineeringTimeEffort;
-                                const risksScore = calculateCategoryScore(hoveredProject.scores.risks, 'risks');
-                                const assumptionsScore = calculateCategoryScore(hoveredProject.scores.assumptions, 'assumptions');
-                                return (complexityScore * categoryWeights.implementationComplexity +
-                                    risksScore * categoryWeights.risks +
-                                    assumptionsScore * categoryWeights.assumptions) /
-                                    (categoryWeights.implementationComplexity + categoryWeights.risks + categoryWeights.assumptions);
-                            })() / maxEffort) * 80 + 10}%`,
-                            top: `${90 - ((
-                                calculateCategoryScore(hoveredProject.scores.patientImpact, 'patientImpact') * categoryWeights.patientImpact +
-                                calculateCategoryScore(hoveredProject.scores.strategicAlignment, 'strategicAlignment') * categoryWeights.strategicAlignment +
-                                calculateCategoryScore(hoveredProject.scores.operationalEfficiency, 'operationalEfficiency') * categoryWeights.operationalEfficiency +
-                                calculateCategoryScore(hoveredProject.scores.technicalHealth, 'technicalHealth') * categoryWeights.technicalHealth
-                            ) / maxImpact) * 75 - 8}%`,
+                            left: `${(() => {
+                                const { x: xPercent } = calculateCoordinates(hoveredProject);
+                                return (xPercent / 100) * 80 + 10;
+                            })()}%`,
+                            top: `${(() => {
+                                const { y: yPercent } = calculateCoordinates(hoveredProject);
+                                return 90 - (yPercent / 100) * 75 - 8;
+                            })()}%`,
                             transform: 'translate(-50%, -100%)'
                         }}
                     >
                         <div className="font-bold mb-2 text-lg">{hoveredProject.name}</div>
                         <div className="text-xs mb-3 text-text-secondary">
-                            <div className="mb-1 flex justify-between"><span>Overall Score:</span> <span className="font-bold text-text-primary">{Math.round(calculateWeightedScore(hoveredProject.scores))}</span></div>
-                        </div>
-                        <div className="text-xs">
-                            <div className="text-text-tertiary mb-2 font-medium uppercase tracking-wider text-[10px]">Top Contributors</div>
-                            {getTopContributors(hoveredProject.scores).map((contributor: any, index: number) => {
-                                const IconComponent = contributor.icon;
-                                return (
-                                    <div key={index} className="flex items-center gap-2 mb-1.5">
-                                        <div className={`p-1 rounded bg-surface ${contributor.color.replace('text-', 'text-')}`}>
-                                            <IconComponent className="w-3 h-3" />
-                                        </div>
-                                        <span className="flex-1 font-medium">{contributor.name}</span>
-                                        <span className="font-bold text-text-primary">+{Math.round(contributor.contribution)}</span>
-                                    </div>
-                                );
-                            })}
+                            <div className="mb-1 flex justify-between">
+                                <span>Value:</span>
+                                <span className="font-bold text-text-primary">{calculateCoordinates(hoveredProject).rawY.toFixed(1)}</span>
+                            </div>
+                            <div className="mb-1 flex justify-between">
+                                <span>Effort:</span>
+                                <span className="font-bold text-text-primary">{calculateCoordinates(hoveredProject).rawX.toFixed(1)}</span>
+                            </div>
                         </div>
                         <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-transparent border-t-white drop-shadow-sm"></div>
                     </div>

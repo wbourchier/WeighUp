@@ -1,0 +1,565 @@
+{
+  "meta": {
+    "sourceFile": "Product Prioritisation - Will 2.xlsm",
+    "sheet": "Updated Criteria",
+    "generatedAtUTC": "2025-12-12T16:53:13Z",
+    "updatedAtUTC": "2025-12-12T17:04:16Z",
+    "note": "Reordered axis to appear above criteria in criteriaCategories"
+  },
+  "screeningQuestions": [
+    {
+      "id": 1,
+      "title": "Inevitability Assessment",
+      "question": "Will we eventually have to do this anyway, regardless of other considerations?",
+      "options": [
+        {
+          "category": "Mandatory",
+          "definition": "New Legal/regulatory requirement with enforcement",
+          "example": "WMDA compliance updates, GDPR requirements, NHS data standards",
+          "decision_impact": "Evaluate timing, not whether to do"
+        },
+        {
+          "category": "Inevitable",
+          "definition": "Industry/scientific evolution makes unavoidable",
+          "example": "Next-generation HLA typing methods, laboratory automation standards",
+          "decision_impact": "Plan for transition timeline"
+        },
+        {
+          "category": "Strategic",
+          "definition": "Organisational strategy makes essential",
+          "example": "Technology modernisation for patient outcomes, data platform consolidation",
+          "decision_impact": "Align with strategic roadmap"
+        },
+        {
+          "category": "Discretionary",
+          "definition": "Optional choice with alternatives",
+          "example": "New feature enhancements, process optimisations",
+          "decision_impact": "Standard matrix evaluation"
+        },
+        {
+          "category": "This will cause a compliance issue",
+          "definition": "Compliance is not possible",
+          "example": null,
+          "decision_impact": "We can't go ahead with this - Won't do"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Inaction Cost Assessment",
+      "question": "What is the cost of NOT doing this at all?",
+      "options": [
+        {
+          "score": "Regulatory/Non compliance",
+          "definition": "Legal or regulatory non-compliance consequences",
+          "example": "WMDA standards violations • GDPR non-compliance penalties \n• Clinical audit failures \n• Healthcare regulatory breaches",
+          "framework_impact": "Mandatory track - prioritise regardless of matrix score"
+        },
+        {
+          "score": "Operational continuity",
+          "definition": "Core operations cannot continue without this",
+          "example": "• Critical system failures preventing donor matching\n• Essential laboratory processes break down \n• Core infrastructure collapse \n• Patient safety systems fail",
+          "framework_impact": "Emergency priority - immediate action required"
+        },
+        {
+          "score": "Competitive position",
+          "definition": "Market/scientific position erodes permanently",
+          "example": "• Falling behind in HLA typing accuracy vs other registries\n• Loss of key research partnerships\n• Reduced donor matching capability vs competitors\n• International standing diminished",
+          "framework_impact": "Strategic timing consideration - evaluate optimal timing"
+        },
+        {
+          "score": "Opportunity missed",
+          "definition": "Missing strategic opportunities that won't return",
+          "example": "• Cannot pursue new cell treatment development\n• Cannot access emerging international markets\n• Cannot develop breakthrough capabilities\n• Research collaboration opportunities missed",
+          "framework_impact": "Portfolio balancing - evaluate within strategic context"
+        },
+        {
+          "score": "Operational Inneficiency",
+          "definition": "Ongoing inefficiencies and frustrations continue",
+          "example": "• Staff continue time-consuming manual processes\n• Users experience suboptimal interfaces\n• Minor process improvements never realised\n• Small productivity gains missed",
+          "framework_impact": "Standard evaluation - use matrix scoring only"
+        },
+        {
+          "score": "None",
+          "definition": "No meaningful consequences from permanent inaction",
+          "example": "Optional convenience features\n• Cosmetic improvements\n• Marginal process tweaks",
+          "framework_impact": "Consider not doing - resources better used elsewhere"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Time Sensitivity Evaluation",
+      "question": "\"Is this a time sensitive initiative?\"",
+      "options": []
+    },
+    {
+      "id": 4,
+      "title": "Portfolio Integration Assessment",
+      "question": "Does this project enable or enhance other strategic initiatives?\nMost projects are likely to be standalone. Use Enabler only when the project has low value in itself but is critical in anabling other projects",
+      "options": [
+        {
+          "category": "Enabler",
+          "definition": "Required for other projects to deliver meaningful value",
+          "examples": "• API platform modernisation (required for partner integrations)\n• Laboratory data pipeline (required for advanced analytics)\n• Core infrastructure upgrades (required for new capabilities)",
+          "value_score_impact": null
+        },
+        {
+          "category": "Enhanced",
+          "definition": "Delivers significantly more value when combined with other projects",
+          "examples": "• HLA typing equipment (enhanced by data pipeline)\n• Donor search interface (enhanced by new matching algorithms)\n• Research data tools (enhanced by partnership integrations)",
+          "value_score_impact": null
+        },
+        {
+          "category": "Standlone",
+          "definition": "Delivers independent value regardless of other projects",
+          "examples": "• User interface improvements\n• Individual process optimisations\n• Isolated system upgrades",
+          "value_score_impact": null
+        }
+      ]
+    }
+  ],
+  "criteriaCategories": [
+    {
+      "id": 1,
+      "name": "Patient / Donor/Supporter/ Clinician Impact",
+      "axis": "y",
+      "criteria": [
+        {
+          "id": 1,
+          "name": "Direct clinical outcomes\n\nMeasurable improvements in patient survival, treatment success, complication rates, matching accuracy, and/or treatment safety",
+          "weight": 0.3,
+          "examples": "Examples: 1-2: Minor lab accuracy improvements, small reductions in processing errors\n3: Improved HLA matching resolution, moderate GvHD reduction, faster urgent matching\n4-5: Major survival rate improvements, breakthrough matching accuracy, significant complication reduction",
+          "exclude": "This criterion measures only the direct clinical outcomes. Do not include second order effects such as:\n\nCost savings, staff time savings, operational efficiency, patient experience, partner workflows, reputation benefits, research opportunities, population size affected",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Improvements in patient survival, treatment success, complication rates, matching accuracy, and/or treatment safety:\n\n0: No measurable clinical impact\n\n1: Minimal improvement\n(expected <1% improvement in clinical metrics in 5 years)\n\n2: Small but meaningful improvement\n(expected 2-3% in clinical metrics in 5 years)\n\n3: Moderate improvement\n(4-5% in key metrics or clear multi-area gains in 5 years)\n\n4: Significant improvement\n(5-8% in survival/safety or major quality gains in 5 years)\n\n5: Transformative impact\n(Over 8% improvement in critical outcomes in 5 years)",
+          "comments": "Speak with Ana (insight manager)"
+        },
+        {
+          "id": 2,
+          "name": "Patient/Donor/Supporter experience improvement \n\nHow the initiative enhances the experience for patients, donors, and external supporters (volunteers, fundraisers, awareness campaigners)",
+          "weight": 0.25,
+          "examples": "Examples:\n\nPatients: Clearer transplant information and timelines, streamlined access to grants and support services, better coordination between Anthony Nolan and hospital teams, enhanced emotional support resources.\n\nDonors: Simplified registration process, improved communication during donation journey, better post-donation follow-up and impact updates, streamlined medical coordination.\n\nSupporters: Enhanced volunteer scheduling and training systems, improved fundraising tools and resources, streamlined partnership processes, better recognition and impact communication.",
+          "exclude": "This measures only the improvement in experience. Do not include second order effects such as:\n\nStrategic alignment from improved supporter engagement\nCost savings from reduced support calls\nStaff time savings from fewer queries\nOperational efficiency from streamlined supporter processes\nInternal colleague experience (captured separately)\nResearch/data collection opportunities from better engagement",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: No experience improvement for external users\n\n1: Minor improvement in specific touchpoints\n(single process simplification, basic information updates)\n\n2: Modest improvements across few areas\n(better communication in 2-3 touchpoints)\n\n3: Noticeable improvement across several touchpoints\n(enhanced resources, streamlined processes, better communication systems)\n\n4: Major improvements across most touchpoints\n(comprehensive experience redesign for specific user groups)\n\n5: Transformative improvement to overall journey\n(end-to-end experience transformation across multiple user types)\n",
+          "comments": ""
+        },
+        {
+          "id": 3,
+          "name": "Population Reach\n\nEstimated percentage of patients, donors, and supporters who will benefit from this initiative over the next 5 years",
+          "weight": 0.25,
+          "examples": "Patients: Core matching improvements affecting all searches, rare tissue type solutions, new treatment pathways.\n\nDonors: Registration process improvements for all new donors, communication enhancements for active donors, expanded donor eligibility criteria.\n\nSupporters: Portal affecting some/all volunteers, fundraising platform improvements, enhanced corporate partnership tools.\n",
+          "exclude": "Clinical impact intensity (captured in Direct Clinical Outcomes), experience quality improvements (captured in Experience criterion), internal staff affected, operational efficiency gains, cost implications",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Note: 5-year window used because many improvements only affect new users joining the register/services, so current percentages would underestimate true impact as populations grow and turn over.\n\n0: No users affected or very limited impact (<1%)\n1: Small subset (1-5% of relevant user population over 5 years)\n2: Modest reach (5-10% of relevant user population over 5 years)\n3: Moderate reach (10-20% of relevant user population or 100% of specific high-need groups like rare tissue types)\n4: High reach (20-40% of relevant user population over 5 years)\n5: Very high reach (>40% of relevant user population or improvements to core services affecting virtually everyone)\n",
+          "comments": "There is a dashboard (shared by Will) - (thoughput? Tim) -> Discuss with Alice - needs to aign wih impact measurements & reach"
+        },
+        {
+          "id": 4,
+          "name": "User Response Time Improvement\n\nHow much the initiative reduces waiting and response times for patients, donors, and supporters (particularly for urgent/time-critical processes)",
+          "weight": 0.2,
+          "examples": "Examples by User Type:\n\nPatients: Faster donor search results delivery, quicker support service responses, reduced waiting for grant decisions, immediate access to information and updates.\n\nDonors: Faster registration confirmation, quicker communication about donation process, reduced coordination delays, streamlined medical scheduling.\n\nSupporters: Improved event coordination timelines, faster feedback and recognition, quicker volunteer scheduling, enhanced communication response times.\n",
+          "exclude": "Do not consider: Internal processing efficiency (captured in Operational Efficiency), staff time savings, system performance improvements, laboratory workflow optimizations, maintenance time reductions\n",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: No improvement in response times\n1: Minimal reduction (<3%) in user-facing response times\n2: Small but meaningful reduction (3-8%) in standard processes\n3: Moderate reduction (8-15%) in key processes or significant improvement in urgent/critical pathways\n4: Major reduction (16-25%) in standard processes or substantial improvement in critical timelines\n5: Transformative improvement (>25%) or elimination of major user-facing delays\n",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Strategic Alignment & Business Value",
+      "axis": "y",
+      "criteria": [
+        {
+          "id": 5,
+          "name": "Alignment with Organisation Strategy & Enablers\n\nCaptures strategic value through alignment not measured elsewhere, with multiplier effect for projects spanning multiple strategic elements.",
+          "weight": 0.35,
+          "examples": "Evaluates:\n- Equity-specific initiatives,\n- Multi-enabler strategic projects,\n- Strategic positioning,\n- Donor recruitment/retention strategies,\n- Evidence-based influencing capabilities,\n- Cross-strategic-aim initiatives",
+          "exclude": "Innovation/new capabilities (covered in Innovation & Capability Development)\n\nData quality improvements (covered in Data Strategy & Insights)\n\nUser experience enhancements (covered in Internal/Partner Experience),\n\nDirect patient outcomes (covered in Patient Impact),\n\nOperational efficiencies,\n\nTechnical improvements\n\nCost savings",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Assessment considers breadth (spanning multiple elements), uniqueness (strategic value not captured elsewhere), and strategic positioning (strengthening Anthony Nolan's role)\n\n0: No strategic alignment\n\n1: Minimal support for one strategic element with limited  value\nExample: Minor donor database update, basic research process improvement\n\n2: Moderate support for one strategic element OR minimal cross-element impact\nExample: Targeted equity initiative for specific patient group, focused evidence-based influencing project\n\n3: Strong support for one strategic element OR moderate multi-element strategic impact\nExample: Significant donor recruitment strategy for underrepresented communities, comprehensive evidence-based influencing platform\n\n4: Strong multi-element strategic impact / transformative single-element positioning\nExample: Equity initiative that enhances donor recruitment AND research capabilities, strategic partnership enabling multiple treatment developments\n\n5: Transformative multi-element strategic impact with unique organisational positioning\nExample: Platform enabling equity improvements, donor expansion, AND evidence-based influencing simultaneously",
+          "comments": "Only the data/insight enabler is affected. Better data integrity for Pos, audit trails, status management, insight from better workflow management tools in coral"
+        },
+        {
+          "id": 6,
+          "name": "Innovation & Capability Development\n\nEvaluates how the initiative creates new capabilities or innovative approaches that expand our capacity to deliver on ANs mission through clinical, technological, or service advancements",
+          "weight": 0.3,
+          "examples": "Technology platforms enabling future innovations, rapid prototyping systems, research infrastructure development, clinical trial capabilities, AI/ML experimentation platforms, data science tools, laboratory technology development",
+          "exclude": "Τhis criterion measures capacity to innovate. Do capture whether an initiative is innovative in itself (eg  if a new API has innovative features that help us reduce technical debt but does not help us innovate, it shoud not be here).\n\nDo not consider future revenue potential from new capabilities, cost savings from improved methods, staff productivity gains, ",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Scoring Guide:<br>Assessment prioritises innovation potential (future innovation enablement), then capability impact (expansion of what we can do), then novelty (how new/innovative this is)\n\n1: Minor enhancement to existing capabilities or processes\n\n3: Significant new capabilities or innovative approaches\nExample: New clinical or research capabilities supporting patient outcomes\nExample: Substantive automation or technological innovation within existing processes\n\n5: Transformative innovation with substantial impact\nExample: Breakthrough treatment approaches or research capabilities\nExample: Innovative use of AI/ML transforming clinical or operational decision-making\nExample: Transformative processes that significantly expand organisational capacity",
+          "comments": ""
+        },
+        {
+          "id": 7,
+          "name": "Data Strategy & Insights\nEvaluates how initiatives enhance data capabilities and analytical insights to enable better decision-making across strategic and operational activities.",
+          "weight": 0.2,
+          "examples": "Data collection improvements, new data sources, data quality/integration enhancements, analytics and reporting capabilities, AI/ML tools for generating insights, decision-support systems, data visualisation platforms",
+          "exclude": "Patient outcome improvements (covered in Patient Impact)\n\nOperational efficiency gains (covered in Operational Efficiency)\n\nInnovation enabling capabilities (covered in Innovation & Capability Development)\n\nStrategic positioning (covered in Strategic Alignment)\n\nCost savings from better decisions\n\nRevenue generation from insights\n\nStaff time savings",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Assessment focuses on data capability enhancement and decision-making improvement across both strategic and operational contexts\n\n0: No impact on data capabilities or insights\n\n1: Minor data quality improvements or basic reporting enhancements\nExample: Small database cleanup, simple report automation\n\n2: Moderate data improvements OR limited analytical capabilities\nExample: Data integration project, basic dashboard implementation\n\n3: Significant data quality/integration improvements OR substantial analytical capabilities\nExample: Comprehensive data warehouse, advanced analytics platform, real-time decision-support system\n\n4: Major data infrastructure OR advanced insight generation capabilities\nExample: Enterprise data platform with AI/ML insights, comprehensive business intelligence system\n\n5: Transformative data capabilities enabling organisation-wide data-informed decision-making\nExample: Revolutionary data platform transforming how decisions are made across all functions, breakthrough analytical capabilities",
+          "comments": "\"Data Strategy & Insights\" might be confused with Org's data strategy -> needs clearer tite"
+        },
+        {
+          "id": 8,
+          "name": "Internal/Partner Experience\n\nEvaluates how initiatives enhance experience quality for internal colleagues and external partners (transplant centres, hospitals, international registries, WMDA)",
+          "weight": 0.15,
+          "examples": "Examples:\nUI improvements: Partner portals, internal system interfaces, dashboard enhancements, form simplification\n\nNon-UI improvements: Communication protocols with partners, staff onboarding processes, collaboration workflows, partner coordination processes, information sharing mechanisms",
+          "exclude": "Do Not Consider:\nPatient/donor/volunteer experience improvements\nTime/effort savings for our team\nStrategic partnership development\nData quality improvements\nProcess automation benefits",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Assessment focuses on experience quality and smoothness rather than efficiency metrics or scope\n\n0: No experience improvement\n\n1: Minor improvements to specific touchpoints\nExample: Small UI enhancement to one system, simplified partner form\n\n2: Moderate improvements across few areas\nExample: Better partner portal interface, improved internal communication process\n\n3: Noticeable improvements across several touchpoints\nExample: Comprehensive partner onboarding experience, enhanced staff collaboration tools\n\n4: Major improvements across most touchpoints\nExample: Transformed partner interaction experience, comprehensive internal workflow improvements\n\n5: Transformative improvement to overall journey/experience\nExample: Revolutionary partner collaboration platform, completely reimagined internal user experience",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Financial Benefits",
+      "axis": "y",
+      "criteria": [
+        {
+          "id": 9,
+          "name": "Direct revenue generation\n\nNew or increased income streams",
+          "weight": 0.5,
+          "examples": "New service offerings, increased capacity for existing services, improved service quality leading to higher fees",
+          "exclude": "Over 5 year period.\n\nScore the most likely outcome, avoiding both pessimistic and optimistic extremes\n\nDo not consider expenditure or savings, just income generation",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Over 5 year period\n0: None\n1: Minimal revenue increase (<1%)\n2: 1-2%\n3: Moderate revenue increase (2-4%) from existing or new services \n4: 4-7%, or creation of significant new income streams\n5: Significant revenue increase (>7%) or creation of major new income streams",
+          "comments": "Share with Alice - finance team has been doing work on this"
+        },
+        {
+          "id": 10,
+          "name": "Cost savings/avoidance\n\nOperational cost savings and future cost prevention",
+          "weight": 0.5,
+          "examples": "Infrastructure cost reductions, licence savings, reduced external contractor costs",
+          "exclude": "Over 5 year period.\n\nScore the most likely outcome, avoiding both pessimistic and optimistic extremes\n\n\nDo not consider Staff time savings (unless direct cost reduction like redundancies), patient impact improvements, process automation benefits, optimistic best-case scenarios (score realistic expectations, not potential maximum savings but likely achievable savings)\n",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Over 5 year period\n0: None\n1: Minimal cost savings (<1%) of yearly operational cost\n2: 1-2%\n3: Moderate savings (2-4%) of yearly operational cost\n4: 4-7%\n5: Significant revenue increase (>7%) of yearly operational cost",
+          "comments": ""
+        },
+        {
+          "id": 14,
+          "name": "Technical Health",
+          "weight": 0.15,
+          "examples": "",
+          "exclude": "",
+          "minScore": null,
+          "maxScore": null,
+          "scoringGuide": "",
+          "comments": ""
+        },
+        {
+          "id": 15,
+          "name": "Maintenance Burden Reduction",
+          "weight": 0.5,
+          "examples": "Reduces effort required for ongoing support and addresses existing ticket backlog or blockages",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: No impact on maintenance effort\n1: Minor reduction in support tickets\n3: Moderate reduction in support effort (5-20%) for specific components\n5: Significant reduction (>20%) in overall support effort or elimination of frequent/critical issues",
+          "comments": ""
+        },
+        {
+          "id": 16,
+          "name": "Systems Simplification",
+          "weight": 0.25,
+          "examples": "Reduces the number of systems, interfaces, or technologies requiring support",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: Adds new system without replacing existing ones\n1: No change to system landscape complexity\n3: Consolidates functionality from multiple components\n5: Enables complete decommissioning of one or more legacy systems \ne.g., Solar, Google Drive",
+          "comments": ""
+        },
+        {
+          "id": 17,
+          "name": "Technical Foundation & Adaptability",
+          "weight": 0.25,
+          "examples": "Architectural design choices that enable system flexibility and responsiveness to changing requirements",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: Further entrenches rigid technical approaches\n1: Maintains current level of adaptability\n3: Moderately improves flexibility for future changes\n5: Significantly enhances ability to adapt to changing requirements (aligning with \"Built for the Future\" principle)",
+          "comments": ""
+        },
+        {
+          "id": 18,
+          "name": "Technical Standards Compliance",
+          "weight": 0.0,
+          "examples": "Adherence to technical implementation standards (e.g., W3C accessibility, coding standards) that improve system quality and maintainability",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: Decreases standards compliance\n1: Maintains current compliance levels\nBrings systems to expected compliance levels (e.g., W3C accessibility standards)\n5: Implements forward-looking standards that reduce future compliance work",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Operational Efficiency",
+      "axis": "y",
+      "criteria": [
+        {
+          "id": 19,
+          "name": "Staff time saved",
+          "weight": 0.35,
+          "examples": "Reduction in manual work or process time for internal teams",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: No time savings\n1: Minimal time savings (<3% per task)\n3: Moderate time savings (8-15% per task) in key operational areas (e.g., laboratory processing, donor search, patient support)\n5: Significant time savings (>25% per task) or automation of critical manual processes",
+          "comments": ""
+        },
+        {
+          "id": 20,
+          "name": "Error reduction",
+          "weight": 0.3,
+          "examples": "Reduces human error or system errors in operational processes",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: No impact on error rates\n1: Minor reduction in non-critical errors\n3: Moderate reduction in important process errors (e.g., laboratory sample processing, donor information management)\n5: Eliminates critical or high-frequency errors in patient-facing processes (e.g., donor matching, sample labeling)",
+          "comments": ""
+        },
+        {
+          "id": 21,
+          "name": "Automation",
+          "weight": 0.35,
+          "examples": "Automates or simplifies operational processes to improve throughput",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: No automation or simplification\n\n1: Minor automation of isolated tasks\n\n3: Moderate automation of regular processes \ne.g., laboratory workflows, donor communication\n\n5: Complete automation of critical workflows \ne.g., automated sample processing, intelligent donor matching",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Implementation Complexity",
+      "axis": "x",
+      "criteria": [
+        {
+          "id": 22,
+          "name": "Engineering time/effort",
+          "weight": 1.0,
+          "examples": "Estimated development time (assuming team of 2-3 developers with standard capacity allocation)",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: XS - Very low effort (<1 month)\n1: S - Low effort (1-3 months)\n2: M - Moderate effort (4-6 months)\n3: L - Substantial effort (7-12 months)\n4: XL - High effort (12-18 months)\n5: XXL - Extremely high effort (>18 months)",
+          "comments": "Low confidence because more discovery needed"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Risks",
+      "axis": "w",
+      "criteria": [
+        {
+          "id": 23,
+          "name": "Technical Debt Impact",
+          "weight": 0.1,
+          "examples": "How existing technical debt in affected systems will increase development effort and complexity",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: Clean codebase in affected areas, minimal debt impact\n1: Moderate technical debt, some additional complexity expected\n3: High technical debt in affected systems, significant additional effort for integration and testing\n5: Legacy system with critical debt issues, major rework required",
+          "comments": "a clean part of CORAL"
+        },
+        {
+          "id": 24,
+          "name": "System integration complexity",
+          "weight": 0.1,
+          "examples": "Complexity of integrating with other systems​",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "5: Complex integration with multiple critical systems\n3: Complex integration requiring significant rework\n1: Moderate integration complexity\n0: Simple integration or standalone solution",
+          "comments": ""
+        },
+        {
+          "id": 25,
+          "name": "Data migration complexity",
+          "weight": 0.1,
+          "examples": "Difficulty of moving/transforming data​",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "5: Complex migration with high-risk data transformation\n3: Complex migration with multiple data sources\n1: Moderate migration complexity with standard transformations\n0: Simple or no data migration required",
+          "comments": ""
+        },
+        {
+          "id": 26,
+          "name": "Team Familiarity",
+          "weight": 0.15,
+          "examples": "Team's experience with the technology​",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "1: Team has direct experience with all technologies and domain\n2: Team has experience with most technologies and domain\n3: Team has some experience but will need additional training\n4: Team lacks experience in critical areas\n5: Team has minimal experience with required technologies",
+          "comments": ""
+        },
+        {
+          "id": 27,
+          "name": "Timeline Risk",
+          "weight": 0.1,
+          "examples": "Risk of delays or schedule overruns",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "1: High confidence in timeline estimates\n3: Moderate timeline uncertainty due to known factors\n5: Very high uncertainty in timeline estimates",
+          "comments": "no scoping or timeline thought about"
+        },
+        {
+          "id": 28,
+          "name": "Organisational Coordination Risk",
+          "weight": 0.1,
+          "examples": "Risk from internal or external organisational dependencies and coordination complexity",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "1: Single Internal stakeholder group project or single trusted external partner \n2. Multiple internal stakeholder groups or 1/2 trusted external partner\n3: Multiple external partners with established relationships\n4: Complex multi-organisational project requiring significant alignment\n5. Critical dependency on external organisations with poor coordination track record",
+          "comments": ""
+        },
+        {
+          "id": 29,
+          "name": "Performance implications",
+          "weight": 0.1,
+          "examples": "Potential impact on system performance​",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "1: No performance impact or well-understood performance profile\n3: Moderate performance implications that can be managed\n5: Significant performance risks requiring careful monitoring and mitigation",
+          "comments": ""
+        },
+        {
+          "id": 30,
+          "name": "Compliance Risk",
+          "weight": 0.1,
+          "examples": "Risk and effort required to achieve regulatory, security, and accessibility compliance",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "1. Low Risk: Standard compliance requirements, well-understood approach.\n3. Moderate Risk: Complex compliance requirements, established solutions available.\n5. High Risk - Challenging compliance landscape, significant effort required.",
+          "comments": ""
+        },
+        {
+          "id": 31,
+          "name": "Resource availability risk",
+          "weight": 0.15,
+          "examples": "SME, developer and decision makers availability",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "1:  Low risk. We will have everybody we need, whenever we need them\n3: Challenging. We have provisionally agreed on resource but it may change nearer to the time\n5: Critical Gaps. We don't have the SME or dev resource required",
+          "comments": "Developers pulled to ASRTs, SMEs multiple projects. No dev squad resource agreed"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Assumptions",
+      "axis": "y",
+      "criteria": [
+        {
+          "id": 32,
+          "name": "Business Maturity & Discovery Requirements",
+          "weight": 0.25,
+          "examples": "Is the scope and design of this initiative well understood?",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: Just an idea\n1: Not well understood\n5: We have the design fully prototyped and approved, both in-scope and out of scope features have been confirmed with stakeholders",
+          "comments": ""
+        },
+        {
+          "id": 33,
+          "name": "Technology Maturity & Research Requirements",
+          "weight": 0.25,
+          "examples": "Uncertainty about technical feasibility, maturity and research/prototyping effort needed before development",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "1: Well-understood technology with proven implementation patterns\n3: Familiar technology with some implementation questions\n5: Some unfamiliar technology elements requiring research\n8: Significant technical uncertainty in critical areas (further discovery needed)\n13: Highly experimental approach with unknown feasibility  (further discovery needed)",
+          "comments": ""
+        },
+        {
+          "id": 34,
+          "name": "Likelyhood of realising predicted Impact",
+          "weight": 0.4,
+          "examples": "Have the assumptions form the business been tested to confirm we will actually get the benefits we are aiming for?",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: No basis for the predicted impacts\n1: Predicted Impacts only understood by sponsor without evidence\n3: Well understood reasoning from multiple stakeholders and from previous experience within the business on similar items\n5: Benefits have been measured, tested, prototyped and confirmed to correlate with the predicted impact \n5b: Or they are clear from contractual costs (financial impact)",
+          "comments": "1 or 2 --> known unknowns, there is strong logic behind initiative"
+        },
+        {
+          "id": 35,
+          "name": "Strategic Clarity",
+          "weight": 0.1,
+          "examples": "How clearly does the predicted impact align with strategic goals",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "0: Cannot tie the initiative to any strategic goal\n2: We predict the impact of this initiative will meet a strategic goal directly\n3: We predict the impact of this initiative will meet multiple strategic goals directly\n5: This directly serves mutliple strategic goals in a very clearly defined way",
+          "comments": ""
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Costs",
+      "axis": "-y",
+      "criteria": [
+        {
+          "id": 11,
+          "name": "Hardware & One-Off Services\n\nEquipment, materials, peripherals, installation, short-term contractors, external consultancy, training costs",
+          "weight": 0.33,
+          "examples": "Equipment purchases, hardware installation, materials, peripherals, short-term implementation contractors, external consultancy services, staff training on new systems, external training courses",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Total cumulative costs over 5 years\n\n0: none\n...\n5: over 1.5 m",
+          "comments": ""
+        },
+        {
+          "id": 12,
+          "name": "Ongoing Tech Costs\n\nLicences, cloud computing, infrastructure, data services, maintenance contracts",
+          "weight": 0.33,
+          "examples": "Software licences, Azure/cloud hosting, infrastructure services, data storage costs, data acquisition/licensing, third-party data services, hardware maintenance contracts, software support contracts",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Total cumulative costs over 5 years\n\n0: none\n...\n5: over 1.5 m",
+          "comments": ""
+        },
+        {
+          "id": 13,
+          "name": "Personnel Costs\nAdditional people we need to hire, ongoing specialist contractors",
+          "weight": 0.33,
+          "examples": "New permanent staff hires, ongoing specialist contractors, long-term contractor support, additional FTE requirements",
+          "exclude": "",
+          "minScore": 0,
+          "maxScore": 5,
+          "scoringGuide": "Total cumulative costs over 5 years\n\n0: none\n...\n5: over 1.5 m",
+          "comments": ""
+        }
+      ]
+    }
+  ]
+}
